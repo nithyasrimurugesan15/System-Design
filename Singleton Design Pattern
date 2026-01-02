@@ -1,0 +1,167 @@
+1️⃣ Lazy Initialization (NOT Thread Safe)
+
+📄 LazySingleton.java
+
+package singleton;
+
+public class LazySingleton {
+
+    private static LazySingleton instance;
+
+    private LazySingleton() {}
+
+    public static LazySingleton getInstance() {
+        if (instance == null) {
+            instance = new LazySingleton();
+        }
+        return instance;
+    }
+}
+
+
+2️⃣ Synchronized Method Singleton
+
+📄 SynchronizedSingleton.java
+
+package singleton;
+
+public class SynchronizedSingleton {
+
+    private static SynchronizedSingleton instance;
+
+    private SynchronizedSingleton() {}
+
+    public static synchronized SynchronizedSingleton getInstance() {
+        if (instance == null) {
+            instance = new SynchronizedSingleton();
+        }
+        return instance;
+    }
+}
+
+
+3️⃣ Double Checked Locking Singleton (BEST for Interviews)
+
+📄 DoubleCheckedLockingSingleton.java
+
+package singleton;
+
+public class DoubleCheckedLockingSingleton {
+
+    private static volatile DoubleCheckedLockingSingleton instance;
+
+    private DoubleCheckedLockingSingleton() {}
+
+    public static DoubleCheckedLockingSingleton getInstance() {
+        if (instance == null) {
+            synchronized (DoubleCheckedLockingSingleton.class) {
+                if (instance == null) {
+                    instance = new DoubleCheckedLockingSingleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+
+
+4️⃣ Static Inner Class Singleton (BEST Design)
+
+📄 StaticInnerClassSingleton.java
+
+package singleton;
+
+public class StaticInnerClassSingleton {
+
+    private StaticInnerClassSingleton() {}
+
+    private static class SingletonHelper {
+        private static final StaticInnerClassSingleton INSTANCE =
+                new StaticInnerClassSingleton();
+    }
+
+    public static StaticInnerClassSingleton getInstance() {
+        return SingletonHelper.INSTANCE;
+    }
+}
+
+
+
+5️⃣ Eager Initialization Singleton
+
+📄 EagerSingleton.java
+
+package singleton;
+
+public class EagerSingleton {
+
+    private static final EagerSingleton instance = new EagerSingleton();
+
+    private EagerSingleton() {}
+
+    public static EagerSingleton getInstance() {
+        return instance;
+    }
+}
+
+
+
+
+6️⃣ Enum Singleton (SAFEST – JAVA RECOMMENDED)
+
+📄 EnumSingleton.java
+
+package singleton;
+
+public enum EnumSingleton {
+    INSTANCE;
+
+    public void showMessage() {
+        System.out.println("Enum Singleton Instance");
+    }
+}
+
+🧪 Testing All Singletons
+
+📄 SingletonTest.java
+
+package singleton;
+
+public class SingletonTest {
+
+    public static void main(String[] args) {
+
+        // Lazy
+        LazySingleton l1 = LazySingleton.getInstance();
+        LazySingleton l2 = LazySingleton.getInstance();
+        System.out.println("Lazy: " + (l1 == l2));
+
+        // Synchronized
+        SynchronizedSingleton s1 = SynchronizedSingleton.getInstance();
+        SynchronizedSingleton s2 = SynchronizedSingleton.getInstance();
+        System.out.println("Synchronized: " + (s1 == s2));
+
+        // Double Checked Locking
+        DoubleCheckedLockingSingleton d1 =
+                DoubleCheckedLockingSingleton.getInstance();
+        DoubleCheckedLockingSingleton d2 =
+                DoubleCheckedLockingSingleton.getInstance();
+        System.out.println("Double Checked: " + (d1 == d2));
+
+        // Static Inner Class
+        StaticInnerClassSingleton i1 =
+                StaticInnerClassSingleton.getInstance();
+        StaticInnerClassSingleton i2 =
+                StaticInnerClassSingleton.getInstance();
+        System.out.println("Static Inner: " + (i1 == i2));
+
+        // Eager
+        EagerSingleton e1 = EagerSingleton.getInstance();
+        EagerSingleton e2 = EagerSingleton.getInstance();
+        System.out.println("Eager: " + (e1 == e2));
+
+        // Enum
+        EnumSingleton.INSTANCE.showMessage();
+    }
+}
