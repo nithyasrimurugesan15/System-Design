@@ -1,0 +1,94 @@
+Observer Design Pattern is a behavioral design pattern where one object (Subject) notifies multiple dependent objects (Observers) automatically when its state changes.
+
+Observer Pattern defines a one-to-many dependency, so when one object changes state, all its dependents are notified.
+
+🧠 Simple Meaning (Real-Life Example)
+🔔 YouTube Channel Example
+
+YouTube Channel → Subject
+
+Subscribers → Observers
+
+When:
+
+Channel uploads a video
+Then:
+
+All subscribers get notified automatically
+
+👉 This is Observer Pattern
+
+
+
+CODE:
+
+import java.util.*;
+
+// ===== OBSERVER INTERFACE =====
+interface Subscriber {
+    void update(String videoTitle);
+}
+
+// ===== SUBJECT INTERFACE =====
+interface Channel {
+    void subscribe(Subscriber sub);
+    void unsubscribe(Subscriber sub);
+    void notifySubscribers();
+}
+
+// ===== CONCRETE SUBJECT =====
+class YouTubeChannel implements Channel {
+
+    private List<Subscriber> subscribers = new ArrayList<>();
+    private String latestVideo;
+
+    public void uploadVideo(String title) {
+        this.latestVideo = title;
+        notifySubscribers();
+    }
+
+    public void subscribe(Subscriber sub) {
+        subscribers.add(sub);
+    }
+
+    public void unsubscribe(Subscriber sub) {
+        subscribers.remove(sub);
+    }
+
+    public void notifySubscribers() {
+        for (Subscriber sub : subscribers) {
+            sub.update(latestVideo);
+        }
+    }
+}
+
+// ===== CONCRETE OBSERVER =====
+class User implements Subscriber {
+
+    private String name;
+
+    User(String name) {
+        this.name = name;
+    }
+
+    public void update(String videoTitle) {
+        System.out.println(name + " notified: New video uploaded -> " + videoTitle);
+    }
+}
+
+// ===== CLIENT =====
+public class ObserverPatternDemo {
+
+    public static void main(String[] args) {
+
+        YouTubeChannel channel = new YouTubeChannel();
+
+        Subscriber s1 = new User("Aarthi");
+        Subscriber s2 = new User("Rahul");
+
+        channel.subscribe(s1);
+        channel.subscribe(s2);
+
+        channel.uploadVideo("Observer Pattern Explained");
+    }
+}
