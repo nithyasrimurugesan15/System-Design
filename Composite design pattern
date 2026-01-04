@@ -1,0 +1,69 @@
+Composite Design Pattern is a structural design pattern that allows you to treat individual objects and groups of objects in the same way.
+
+Composite Pattern lets clients treat single objects and collections of objects uniformly.
+
+
+import java.util.*;
+
+// ===== COMPONENT =====
+interface Item {
+    void show();
+}
+
+// ===== LEAF (Single object) =====
+class FileItem implements Item {
+
+    String name;
+
+    FileItem(String name) {
+        this.name = name;
+    }
+
+    public void show() {
+        System.out.println("File: " + name);
+    }
+}
+
+// ===== COMPOSITE (Group of objects) =====
+class FolderItem implements Item {
+
+    String name;
+    List<Item> items = new ArrayList<>();
+
+    FolderItem(String name) {
+        this.name = name;
+    }
+
+    void add(Item item) {
+        items.add(item);
+    }
+
+    public void show() {
+        System.out.println("Folder: " + name);
+        for (Item item : items) {
+            item.show();
+        }
+    }
+}
+
+// ===== CLIENT =====
+public class CompositeDemo {
+
+    public static void main(String[] args) {
+
+        Item file1 = new FileItem("resume.pdf");
+        Item file2 = new FileItem("photo.jpg");
+
+        FolderItem documents = new FolderItem("Documents");
+        documents.add(file1);
+
+        FolderItem pictures = new FolderItem("Pictures");
+        pictures.add(file2);
+
+        FolderItem root = new FolderItem("Root");
+        root.add(documents);
+        root.add(pictures);
+
+        root.show();
+    }
+}
