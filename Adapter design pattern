@@ -1,0 +1,44 @@
+Adapter Design Pattern is a structural design pattern that allows two incompatible interfaces to 
+work together by converting the interface of one class into another interface that the client expects.
+
+Adapter Pattern acts as a bridge between incompatible interfaces.
+
+
+// ===== TARGET INTERFACE =====
+interface Charger {
+    void chargePhone();
+}
+
+// ===== ADAPTEE (Old / Existing Class) =====
+class OldCharger {
+    public void supplyPower() {
+        System.out.println("Power supplied using old charger");
+    }
+}
+
+// ===== ADAPTER =====
+class ChargerAdapter implements Charger {
+
+    private OldCharger oldCharger;
+
+    public ChargerAdapter(OldCharger oldCharger) {
+        this.oldCharger = oldCharger;
+    }
+
+    @Override
+    public void chargePhone() {
+        oldCharger.supplyPower();   // adapting method
+    }
+}
+
+// ===== CLIENT =====
+public class AdapterDemo {
+
+    public static void main(String[] args) {
+
+        OldCharger oldCharger = new OldCharger();
+
+        Charger charger = new ChargerAdapter(oldCharger);
+        charger.chargePhone();
+    }
+}
