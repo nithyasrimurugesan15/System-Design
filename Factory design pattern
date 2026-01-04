@@ -1,0 +1,52 @@
+Definitions:
+
+Factory Pattern is a creational design pattern used to create objects without exposing the instantiation logic to the client. 
+The client specifies what type of object it needs, and the factory decides how and which object to create.
+
+
+interface Vehicle {
+    void drive();
+}
+
+class Car implements Vehicle {
+    public void drive() {
+        System.out.println("Driving a Car");
+    }
+}
+
+class Bike implements Vehicle {
+    public void drive() {
+        System.out.println("Riding a Bike");
+    }
+}
+
+class VehicleFactory {
+
+    public static Vehicle getVehicle(String type) {
+
+        if (type == null) {
+            throw new IllegalArgumentException("Vehicle type cannot be null");
+        }
+
+        switch (type.toUpperCase()) {
+            case "CAR":
+                return new Car();
+            case "BIKE":
+                return new Bike();
+            default:
+                throw new IllegalArgumentException("Invalid vehicle type");
+        }
+    }
+}
+
+public class FactoryDemo {
+
+    public static void main(String[] args) {
+
+        Vehicle vehicle1 = VehicleFactory.getVehicle("CAR");
+        vehicle1.drive();
+
+        Vehicle vehicle2 = VehicleFactory.getVehicle("BIKE");
+        vehicle2.drive();
+    }
+}
