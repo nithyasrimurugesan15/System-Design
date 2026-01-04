@@ -1,0 +1,78 @@
+Strategy Design Pattern is a behavioral design pattern that allows you to define multiple algorithms, put each one in a separate class, and switch between them at runtime.
+
+Strategy Pattern = Same action, different behavior, switchable at runtime
+
+Strategy Pattern lets you change behavior at runtime without changing the class.
+
+🧠 Simple Meaning (Real-Life)
+Example: Navigation App 🗺️
+
+Car route
+
+Bike route
+
+Walking route
+
+👉 Same destination
+👉 Different strategies
+👉 Can switch anytime
+
+🔹 When to Use Strategy Pattern?
+
+Use it when:
+
+You have multiple ways to do the same task
+
+You want to avoid if–else chains
+
+Behavior changes at runtime
+
+
+CODE:
+
+// ===== STRATEGY INTERFACE =====
+interface PaymentStrategy {
+    void pay(int amount);
+}
+
+// ===== CONCRETE STRATEGIES =====
+class CreditCardPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using Credit Card");
+    }
+}
+
+class UPIPayment implements PaymentStrategy {
+    public void pay(int amount) {
+        System.out.println("Paid " + amount + " using UPI");
+    }
+}
+
+// ===== CONTEXT =====
+class PaymentContext {
+
+    private PaymentStrategy strategy;
+
+    void setStrategy(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    void payAmount(int amount) {
+        strategy.pay(amount);
+    }
+}
+
+// ===== CLIENT =====
+public class StrategyPatternDemo {
+
+    public static void main(String[] args) {
+
+        PaymentContext payment = new PaymentContext();
+
+        payment.setStrategy(new CreditCardPayment());
+        payment.payAmount(500);
+
+        payment.setStrategy(new UPIPayment());
+        payment.payAmount(300);
+    }
+}
