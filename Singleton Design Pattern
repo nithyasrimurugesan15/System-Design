@@ -1,3 +1,5 @@
+revise : https://www.geeksforgeeks.org/system-design/singleton-design-pattern/
+
 1️⃣ Lazy Initialization (NOT Thread Safe)
 
 📄 LazySingleton.java
